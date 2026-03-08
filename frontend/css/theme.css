@@ -1,0 +1,50 @@
+/* Theme switcher styles and color variables */
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --panel: #ffffff;
+  --surface: #ffffff;
+  --text: #1f1b12;
+  --muted: #7a6a50;
+  --accent: #d4af37;
+  --border: #e6dbc3;
+  --radius: 12px;
+  --card-shadow: 0 2px 8px rgba(17,12,4,0.08);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b0b0b;
+  --panel: #121212;
+  --surface: #121212;
+  --text: #f4ead2;
+  --muted: #a89264;
+  --accent: #d4af37;
+  --border: #2b2312;
+  --radius: 12px;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+#theme-toggle {
+  transition: background 0.2s, color 0.2s;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.nav-link {
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+.nav-link:hover {
+  background: var(--accent);
+  color: #fff;
+}

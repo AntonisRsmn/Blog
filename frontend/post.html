@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post</title>
+  <meta name="description" content="Read the latest article on Rusman Blog." />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Rusman" />
+  <meta property="og:title" content="Post | Rusman" />
+  <meta property="og:description" content="Read the latest article on Rusman Blog." />
+  <meta property="og:image" content="/assets/default-post.svg" />
+  <meta property="og:url" content="/post.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Post | Rusman" />
+  <meta name="twitter:description" content="Read the latest article on Rusman Blog." />
+  <meta name="twitter:image" content="/assets/default-post.svg" />
+  <link rel="canonical" href="/post.html" />
+  <link rel="stylesheet" href="/css/global.css?v=9" />
+  <link rel="stylesheet" href="/css/article.css" />
+</head>
+<body>
+
+<div id="article-reading-progress" class="article-reading-progress" aria-hidden="true"></div>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo"><img src="/assets/tsotras-logo.jpg" alt="??d?se?? ?s?t?a?" loading="eager" decoding="async"></a>
+    <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Άνοιγμα μενού" aria-controls="mobile-sidebar" aria-expanded="false">☰</button>
+    <nav>
+      <a href="/" class="nav-link">Αρχική</a>
+      <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
+      <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Πρόσβαση</a>
+      <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+      <button id="theme-toggle"></button>
+    </nav>
+  </div>
+</header>
+
+<div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" hidden></div>
+<aside id="mobile-sidebar" class="mobile-sidebar" aria-label="Κινητή πλοήγηση" aria-hidden="true">
+  <div class="mobile-sidebar-head">
+    <strong>Μενού</strong>
+    <button type="button" id="mobile-sidebar-close" class="mobile-sidebar-close" aria-label="Κλείσιμο μενού">✕</button>
+  </div>
+  <nav class="mobile-sidebar-nav">
+    <a href="/" class="nav-link">Αρχική</a>
+    <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
+    <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Πρόσβαση</a>
+    <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+    <div class="mobile-theme-row">
+      <span>Θέμα</span>
+      <button type="button" id="mobile-theme-toggle" class="mobile-theme-switch" aria-label="Εναλλαγή θέματος"></button>
+    </div>
+  </nav>
+</aside>
+
+<main>
+  <a href="/" class="back-link">← Back to articles</a>
+  <article id="post">
+    <div class="skeleton-article">
+      <div class="skeleton-line skeleton-line-heading"></div>
+      <div class="skeleton-article-meta">
+        <div class="skeleton-line" style="width:100px;height:14px"></div>
+        <div class="skeleton-line" style="width:80px;height:14px"></div>
+        <div class="skeleton-line" style="width:120px;height:14px"></div>
+      </div>
+      <div class="skeleton-block" style="width:140px;height:32px;border-radius:999px"></div>
+      <div class="skeleton-article-body">
+        <div class="skeleton-line skeleton-line-full"></div>
+        <div class="skeleton-line skeleton-line-full"></div>
+        <div class="skeleton-line skeleton-line-medium"></div>
+        <div class="skeleton-line skeleton-line-full"></div>
+        <div class="skeleton-line skeleton-line-short"></div>
+        <div class="skeleton-block" style="width:100%;height:300px"></div>
+        <div class="skeleton-line skeleton-line-full"></div>
+        <div class="skeleton-line skeleton-line-full"></div>
+        <div class="skeleton-line skeleton-line-medium"></div>
+        <div class="skeleton-line skeleton-line-short"></div>
+      </div>
+    </div>
+  </article>
+  <section class="ad-block" aria-label="Διαφήμιση">
+    <p class="ad-label">Διαφήμιση</p>
+    <ins
+      class="adsbygoogle ad-slot"
+      style="display:block"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+      data-adsense-slot-key="postSlot"
+    ></ins>
+  </section>
+  <section class="comments" id="comments" hidden>
+    <div class="comments-head">
+      <h2>Comments</h2>
+      <div class="comments-toolbar">
+        <label for="commentSort">Sort</label>
+        <select id="commentSort" aria-label="Sort comments">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="top">Top</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="comments-compose">
+      <div id="commentLoginPrompt" class="comment-login-prompt" style="display: none;">
+        <p>Παρακαλώ <a href="/admin/login.html">συνδεθείτε</a> για να αφήσετε σχόλιο.</p>
+      </div>
+      <form id="commentForm" class="comment-form">
+        <textarea id="commentText" placeholder="Write a comment..." required></textarea>
+        <button type="submit">Post Comment</button>
+      </form>
+      <p id="commentStatus" class="comment-status"></p>
+    </div>
+
+    <div id="commentList" class="comment-list"></div>
+  </section>
+</main>
+
+<section class="newsletter-section" id="newsletter-section">
+  <div class="newsletter-inner">
+    <span class="newsletter-title">📬 Newsletter</span>
+    <form class="newsletter-form" id="newsletter-form">
+      <input type="email" name="email" placeholder="Το email σας..." required autocomplete="email" />
+      <button type="submit">Εγγραφή</button>
+    </form>
+    <a class="newsletter-website-link" href="https://www.ekdoseis-tsotras.gr/" target="_blank" rel="noopener noreferrer">Επισκεφθείτε την ιστοσελίδα μας <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06z" clip-rule="evenodd"/></svg></a>
+  </div>
+  <div class="newsletter-status-wrap"><span class="newsletter-status" id="newsletter-status"></span></div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-left">
+      <div class="brand-small">
+        Antonios <span style="color:var(--accent)">Rusman</span>
+      </div>
+      <div class="muted small">© <span id="year"></span> <a href="https://rusman.gr" target="_blank" rel="noopener">Antonios Rusman</a> — All rights reserved.</div>
+    </div>
+
+    <div class="footer-center">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/tos.html">Όροι Χρήσης</a>
+        <a href="/privacy.html">Πολιτική Απορρήτου</a>
+      </nav>
+    </div>
+
+    <div class="footer-right" aria-hidden="false">
+      <div class="social" role="list">
+        <a class="social-link" href="mailto:info@rusman.gr" aria-label="Email" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <path d="M3 6.5h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-11z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 6.5L12 13 3 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a class="social-link" href="https://github.com/AntonisRsmn" target="_blank" rel="noopener" aria-label="GitHub" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <path d="M12 2C7.58 2 4 5.58 4 10c0 3.54 2.29 6.54 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.56 7.56 0 0 1 12 6.8c.68.003 1.36.092 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 20 10c0-4.42-3.58-8-8-8z" fill="currentColor"/>
+          </svg>
+        </a>
+
+        <a class="social-link" href="https://www.linkedin.com/in/antonis-rusman-a46424319/" target="_blank" rel="noopener" aria-label="LinkedIn" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M7.5 11.5v5M7.5 8.5v.01M12 16.5v-4c0-1 .6-1.5 1.4-1.5.8 0 1.6.5 1.6 1.6v3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a class="social-link" href="https://instagram.com/_.rusman._" target="_blank" rel="noopener" aria-label="Instagram" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/theme.js?v=4"></script>
+<script src="/js/blog.js?v=4"></script>
+<script src="/js/adsense.js"></script>
+<script src="/js/performance.js"></script>
+<script src="/js/newsletter-footer.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function updateThemeLabel() {
+  const label = document.getElementById('theme-label');
+  const mode = document.documentElement.getAttribute('data-theme') || 'light';
+  if (label) {
+    label.textContent = mode === 'dark' ? 'Dark' : 'Light';
+  }
+}
+window.addEventListener('DOMContentLoaded', updateThemeLabel);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Keep sitemap path stable for crawlers.
+Sitemap: /sitemap.xml

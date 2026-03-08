@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics - Link Checker</title>
+  <link rel="stylesheet" href="/css/global.css?v=9" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo"><img src="../assets/tsotras-logo.jpg" alt="??d?se?? ?s?t?a?" loading="eager" decoding="async"></a>
+    <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Άνοιγμα μενού" aria-controls="mobile-sidebar" aria-expanded="false">☰</button>
+    <nav>
+      <a href="/" class="nav-link">Αρχική</a>
+      <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
+      <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Πρόσβαση</a>
+      <a href="/admin/profile.html" class="nav-link" data-auth-link>Προφίλ</a>
+      <button id="theme-toggle"></button>
+    </nav>
+  </div>
+</header>
+
+<div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" hidden></div>
+<aside id="mobile-sidebar" class="mobile-sidebar" aria-label="Κινητή πλοήγηση" aria-hidden="true">
+  <div class="mobile-sidebar-head">
+    <strong>Μενού</strong>
+    <button type="button" id="mobile-sidebar-close" class="mobile-sidebar-close" aria-label="Κλείσιμο μενού">✕</button>
+  </div>
+  <nav class="mobile-sidebar-nav">
+    <a href="/" class="nav-link">Αρχική</a>
+    <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
+    <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Πρόσβαση</a>
+    <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+    <div class="mobile-theme-row">
+      <span>Θέμα</span>
+      <button type="button" id="mobile-theme-toggle" class="mobile-theme-switch" aria-label="Εναλλαγή θέματος"></button>
+    </div>
+  </nav>
+</aside>
+
+<main>
+  <div class="admin-container">
+    <div class="admin-page-head">
+      <h1 class="admin-title">Broken-link Checker</h1>
+      <p class="admin-subtitle">Crawl your posts and flag dead internal/outbound links.</p>
+    </div>
+
+    <div id="status" class="admin-status" role="status" aria-live="polite"></div>
+
+    <div class="admin-section" style="margin-bottom: 16px;">
+      <div class="latest-posts-head">
+        <div class="latest-posts-head-copy">
+          <h2>Scan</h2>
+          <p class="release-manager-hint"><a href="/admin/dashboard.html">← Back to analytics dashboard</a></p>
+        </div>
+        <button type="button" id="run-link-check" class="admin-link-btn admin-link-btn-primary">Run Checker</button>
+      </div>
+      <div id="link-check-overview" class="analytics-overview-grid">
+        <div class="skeleton-block" style="height:80px"></div>
+        <div class="skeleton-block" style="height:80px"></div>
+        <div class="skeleton-block" style="height:80px"></div>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="latest-posts-head">
+        <div class="latest-posts-head-copy">
+          <h2>Broken Links</h2>
+          <p class="release-manager-hint">Includes source post and failed target URL.</p>
+        </div>
+      </div>
+      <ul id="link-check-results" class="posts-list analytics-list">
+        <li class="skeleton-list-item"><div class="skeleton-line skeleton-line-full"></div></li>
+        <li class="skeleton-list-item"><div class="skeleton-line skeleton-line-medium"></div></li>
+        <li class="skeleton-list-item"><div class="skeleton-line skeleton-line-short"></div></li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<section class="newsletter-section" id="newsletter-section">
+  <div class="newsletter-inner">
+    <span class="newsletter-title">📬 Newsletter</span>
+    <form class="newsletter-form" id="newsletter-form">
+      <input type="email" name="email" placeholder="Το email σας..." required autocomplete="email" />
+      <button type="submit">Εγγραφή</button>
+    </form>
+    <a class="newsletter-website-link" href="https://www.ekdoseis-tsotras.gr/" target="_blank" rel="noopener noreferrer">Επισκεφθείτε την ιστοσελίδα μας <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06z" clip-rule="evenodd"/></svg></a>
+  </div>
+  <div class="newsletter-status-wrap"><span class="newsletter-status" id="newsletter-status"></span></div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-left">
+      <div class="brand-small">Antonios <span style="color:var(--accent)">Rusman</span></div>
+      <div class="muted small">© <span id="year"></span> <a href="https://rusman.gr" target="_blank" rel="noopener">Antonios Rusman</a> — All rights reserved.</div>
+    </div>
+    <div class="footer-center">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/tos.html">Όροι Χρήσης</a>
+        <a href="/privacy.html">Πολιτική Απορρήτου</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/theme.js?v=4"></script>
+<script src="/js/newsletter-footer.js"></script>
+<script src="/js/admin-analytics-links.js"></script>
+</body>
+</html>
+

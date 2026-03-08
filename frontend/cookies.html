@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Policy | ΕΚΔΟΣΕΙΣ ΤΣΟΤΡΑΣ</title>
+  <meta name="description" content="Learn which cookies and similar technologies ΕΚΔΟΣΕΙΣ ΤΣΟΤΡΑΣ uses, what data is collected, and how to manage consent." />
+  <link rel="canonical" href="/cookies.html" />
+  <link rel="stylesheet" href="/css/global.css?v=9" />
+  <style>
+    .legal-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .legal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .legal-card h1 {
+      font-size: 1.9rem;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .legal-card > header {
+      position: static;
+      top: auto;
+      z-index: auto;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .legal-meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .legal-card section {
+      display: grid;
+      gap: 8px;
+    }
+
+    .legal-card h2 {
+      font-size: 1.08rem;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .legal-card p,
+    .legal-card li {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .legal-card ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .legal-card {
+        padding: 18px;
+      }
+
+      .legal-card h1 {
+        font-size: 1.55rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo"><img src="/assets/tsotras-logo.jpg" alt="ΕΚΔΟΣΕΙΣ ΤΣΟΤΡΑΣ" loading="eager" decoding="async"></a>
+    <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Άνοιγμα μενού" aria-controls="mobile-sidebar" aria-expanded="false">☰</button>
+    <nav>
+      <a href="/" class="nav-link">Αρχική</a>
+      <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
+      <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Access</a>
+      <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+      <button id="theme-toggle"></button>
+    </nav>
+  </div>
+</header>
+
+<div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" hidden></div>
+<aside id="mobile-sidebar" class="mobile-sidebar" aria-label="Κινητή πλοήγηση" aria-hidden="true">
+  <div class="mobile-sidebar-head">
+    <strong>Μενού</strong>
+    <button type="button" id="mobile-sidebar-close" class="mobile-sidebar-close" aria-label="Κλείσιμο μενού">✕</button>
+  </div>
+  <nav class="mobile-sidebar-nav">
+    <a href="/" class="nav-link">Αρχική</a>
+    <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
+    <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Access</a>
+    <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+    <div class="mobile-theme-row">
+      <span>Θέμα</span>
+      <button type="button" id="mobile-theme-toggle" class="mobile-theme-switch" aria-label="Εναλλαγή θέματος"></button>
+    </div>
+  </nav>
+</aside>
+
+<main>
+  <div class="legal-wrap">
+    <div data-lang="el">
+      <article class="legal-card">
+        <header>
+          <h1>Πολιτική Cookies</h1>
+          <p class="legal-meta">Ημερομηνία ισχύος: 28 Φεβρουαρίου 2026</p>
+        </header>
+
+        <section>
+          <h2>1. Τι καλύπτει αυτή η πολιτική</h2>
+          <p>Αυτή η Πολιτική Cookies εξηγεί ποια cookies και παρόμοιες τεχνολογίες χρησιμοποιούνται στην ιστοσελίδα της ΕΚΔΟΣΕΙΣ ΤΣΟΤΡΑΣ, ποιες πληροφορίες αποθηκεύουν και πώς μπορείτε να διαχειριστείτε τις προτιμήσεις σας.</p>
+        </section>
+
+        <section>
+          <h2>2. Επιλογές συγκατάθεσης</h2>
+          <ul>
+            <li><strong>Απαραίτητα:</strong> πάντα ενεργά γιατί απαιτούνται για τη βασική λειτουργία.</li>
+            <li><strong>Αναλυτικά:</strong> προαιρετικά, ελέγχονται από το παράθυρο προτιμήσεων cookies.</li>
+            <li><strong>Διαφημίσεις:</strong> προαιρετικά, ελέγχονται από το παράθυρο προτιμήσεων cookies.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>3. Cookies και αποθήκευση που χρησιμοποιούμε</h2>
+          <ul>
+            <li><strong>Cookie αυθεντικοποίησης (`token`):</strong> HttpOnly cookie συνεδρίας που χρησιμοποιείται για τη διατήρηση της σύνδεσης των χρηστών και την εξουσιοδότηση προστατευμένων/διαχειριστικών ενεργειών.</li>
+            <li><strong>Αποθήκευση προτιμήσεων cookies (`cookie-preferences-v1` στο localStorage):</strong> αποθηκεύει τις επιλογές συγκατάθεσής σας (απαραίτητα/αναλυτικά/διαφημίσεις) και τη χρονοσήμανση ενημέρωσης.</li>
+            <li><strong>Κλειδιά αποθήκευσης συνεδρίας:</strong> χρησιμοποιούνται για την αποφυγή διπλότυπων αναλυτικών γεγονότων κατά τη διάρκεια μιας συνεδρίας περιήγησης (π.χ. αποδιπλοτυποποίηση εντυπώσεων hero και προβολών δημοσιεύσεων).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. Ποια δεδομένα συλλέγουμε όταν τα αναλυτικά είναι ενεργοποιημένα</h2>
+          <ul>
+            <li><strong>Μετρήσεις επιδόσεων (Web Vitals):</strong> όνομα/τιμή/αξιολόγηση μέτρησης, διαδρομή σελίδας, πηγή, user agent.</li>
+            <li><strong>Αναζήτηση analytics:</strong> ερώτημα αναζήτησης και κανονικοποιημένο ερώτημα, διαδρομή σελίδας, αριθμός αποτελεσμάτων, γλώσσα, user agent.</li>
+            <li><strong>Γεγονότα A/B test:</strong> κλειδί δοκιμής, παραλλαγή, τύπος γεγονότος, διαδρομή σελίδας, αναγνωριστικό/σύνδεσμος στόχου δημοσίευσης, user agent.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>5. Ποια δεδομένα συλλέγουμε για προαιρετική προβολή διαφημίσεων</h2>
+          <p>Όταν η συγκατάθεση διαφημίσεων είναι ενεργοποιημένη, η ιστοσελίδα ενδέχεται να φορτώσει scripts και μονάδες διαφημίσεων του Google AdSense. Οι πάροχοι τεχνολογίας διαφημίσεων ενδέχεται να επεξεργάζονται δεδομένα σύμφωνα με τις δικές τους πολιτικές, συμπεριλαμβανομένων αναγνωριστικών, σημάτων συσκευής/προγράμματος περιήγησης και δεδομένων αλληλεπίδρασης με διαφημίσεις.</p>
+        </section>
+
+        <section>
+          <h2>6. Άλλα δεδομένα που συλλέγονται από λειτουργίες της ιστοσελίδας</h2>
+          <ul>
+            <li><strong>Εγγραφές newsletter:</strong> email, πηγή, σελίδα πηγής, προαιρετικό πλαίσιο δημοσίευσης, γλώσσα, user agent.</li>
+            <li><strong>Σχόλια:</strong> κείμενο σχολίου, δεδομένα εμφάνισης συγγραφέα, αντιδράσεις, δείκτες anti-spam εποπτείας.</li>
+            <li><strong>Λογαριασμός/προφίλ:</strong> email, hash κωδικού, ρόλος και προαιρετικοί σύνδεσμοι προφίλ/κοινωνικών δικτύων.</li>
+          </ul>
+          <p>Για το newsletter, η αποστολή email γίνεται μέσω Brevo. Όταν γίνεται απεγγραφή από σύνδεσμο σε newsletter email, η κατάσταση απεγγραφής μπορεί να συγχρονιστεί αυτόματα και στην τοπική λίστα συνδρομητών της ιστοσελίδας μέσω webhook.</p>
+        </section>
+
+        <section>
+          <h2>7. Επισκόπηση διατήρησης</h2>
+          <ul>
+            <li>Τα αναλυτικά γεγονότα Web Vitals διατηρούνται για περιορισμένο χρονικό διάστημα (προεπιλογή περίπου 30 ημέρες).</li>
+            <li>Τα αναλυτικά γεγονότα αναζήτησης διατηρούνται για περιορισμένο χρονικό διάστημα (προεπιλογή περίπου 120 ημέρες).</li>
+            <li>Τα γεγονότα A/B test διατηρούνται για περιορισμένο χρονικό διάστημα (προεπιλογή περίπου 90 ημέρες).</li>
+            <li>Τα αρχεία λογαριασμού, σχολίων και newsletter διατηρούνται όσο απαιτείται για λειτουργία υπηρεσίας, συμμόρφωση και ασφάλεια.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>8. Πώς να διαχειριστείτε τα cookies</h2>
+          <ul>
+            <li>Ανοίξτε τις <strong>Ρυθμίσεις cookies</strong> από το υποσέλιδο για να ενημερώσετε τις προτιμήσεις σας ανά πάσα στιγμή.</li>
+            <li>Χρησιμοποιήστε τις ρυθμίσεις του browser σας για να καθαρίσετε αποθηκευμένα cookies/local storage.</li>
+            <li>Η απενεργοποίηση απαραίτητων cookies μπορεί να επηρεάσει τη λειτουργία σύνδεσης/συνεδρίας.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>9. Επικοινωνία</h2>
+          <p>Για ερωτήσεις σχετικά με τα cookies ή τη διαχείριση δεδομένων, επικοινωνήστε μαζί μας στο <a href="mailto:info@ekdoseis-tsotras.gr">info@ekdoseis-tsotras.gr</a>.</p>
+        </section>
+      </article>
+    </div>
+
+    <div data-lang="en">
+      <article class="legal-card">
+        <header>
+          <h1>Cookie Policy</h1>
+          <p class="legal-meta">Effective date: February 28, 2026</p>
+        </header>
+
+        <section>
+          <h2>1. What this policy covers</h2>
+          <p>This Cookie Policy explains which cookies and similar technologies are used on the ΕΚΔΟΣΕΙΣ ΤΣΟΤΡΑΣ website, what information they store, and how you can manage your preferences.</p>
+        </section>
+
+        <section>
+          <h2>2. Consent choices</h2>
+          <ul>
+            <li><strong>Essential:</strong> always enabled because required for core website operation.</li>
+            <li><strong>Analytics:</strong> optional and controlled from the cookie preferences window.</li>
+            <li><strong>Ads:</strong> optional and controlled from the cookie preferences window.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>3. Cookies and storage we use</h2>
+          <ul>
+            <li><strong>Authentication cookie (`token`):</strong> HttpOnly session cookie used to keep signed-in users authenticated and authorize protected/admin actions.</li>
+            <li><strong>Cookie preferences storage (`cookie-preferences-v1` in localStorage):</strong> stores your consent selections (essential/analytics/ads) and update timestamp.</li>
+            <li><strong>Session storage keys:</strong> used to avoid duplicate analytics events during a browsing session (for example hero impression and post-view deduplication).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. What data we collect when analytics is enabled</h2>
+          <ul>
+            <li><strong>Performance metrics (Web Vitals):</strong> metric name/value/rating, page path, source, user agent.</li>
+            <li><strong>Search analytics:</strong> search query and normalized query, page path, result count, locale, user agent.</li>
+            <li><strong>A/B test events:</strong> test key, variant, event type, page path, target post id/href, user agent.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>5. What data we collect for optional ad delivery</h2>
+          <p>When ad consent is enabled, the site may load Google AdSense scripts and ad units. Ad technology providers may process data according to their own policies, including identifiers, device/browser signals, and ad interaction data.</p>
+        </section>
+
+        <section>
+          <h2>6. Other data collected by website features</h2>
+          <ul>
+            <li><strong>Newsletter subscriptions:</strong> email, source, source page, optional post context, locale, user agent.</li>
+            <li><strong>Comments:</strong> comment text, author display data, reactions, moderation anti-spam indicators.</li>
+            <li><strong>Account/profile:</strong> email, password hash, role, and optional profile/social links.</li>
+          </ul>
+          <p>For newsletter delivery, emails are processed through Brevo. When an unsubscribe happens from a link inside a newsletter email, that unsubscribe status may also be automatically synchronized to the website local subscriber list through webhook processing.</p>
+        </section>
+
+        <section>
+          <h2>7. Retention overview</h2>
+          <ul>
+            <li>Web vital analytics events are retained for a limited period (default around 30 days).</li>
+            <li>Search analytics events are retained for a limited period (default around 120 days).</li>
+            <li>A/B test events are retained for a limited period (default around 90 days).</li>
+            <li>Account, comment, and newsletter records are retained as required for service operation, compliance, and security.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>8. How to manage cookies</h2>
+          <ul>
+            <li>Open <strong>Cookie settings</strong> from the footer to update preferences anytime.</li>
+            <li>Use your browser settings to clear stored cookies/local storage.</li>
+            <li>Disabling essential cookies may affect login/session functionality.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>9. Contact</h2>
+          <p>For questions about cookies or data handling, contact us at <a href="mailto:info@ekdoseis-tsotras.gr">info@ekdoseis-tsotras.gr</a>.</p>
+        </section>
+      </article>
+    </div>
+  </div>
+
+  <section class="ad-block" aria-label="Διαφήμιση">
+    <p class="ad-label">Διαφήμιση</p>
+    <ins
+      class="adsbygoogle ad-slot"
+      style="display:block"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+      data-adsense-slot-key="genericSlot"
+    ></ins>
+  </section>
+</main>
+
+<section class="newsletter-section" id="newsletter-section">
+  <div class="newsletter-inner">
+    <span class="newsletter-title">📬 Newsletter</span>
+    <form class="newsletter-form" id="newsletter-form">
+      <input type="email" name="email" placeholder="Το email σας..." required autocomplete="email" />
+      <button type="submit">Εγγραφή</button>
+    </form>
+    <a class="newsletter-website-link" href="https://www.ekdoseis-tsotras.gr/" target="_blank" rel="noopener noreferrer">Επισκεφθείτε την ιστοσελίδα μας <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06z" clip-rule="evenodd"/></svg></a>
+  </div>
+  <div class="newsletter-status-wrap"><span class="newsletter-status" id="newsletter-status"></span></div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-left">
+      <div class="brand-small">
+        Antonios <span style="color:var(--accent)">Rusman</span>
+      </div>
+      <div class="muted small">© <span id="year"></span> <a href="https://rusman.gr" target="_blank" rel="noopener">Antonios Rusman</a> — All rights reserved.</div>
+    </div>
+
+    <div class="footer-center">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/tos.html">Όροι Χρήσης</a>
+        <a href="/privacy.html">Πολιτική Απορρήτου</a>
+      </nav>
+    </div>
+
+    <div class="footer-right" aria-hidden="false">
+      <div class="social" role="list">
+        <a class="social-link" href="mailto:info@ekdoseis-tsotras.gr" aria-label="Email" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <path d="M3 6.5h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-11z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 6.5L12 13 3 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a class="social-link" href="https://github.com/AntonisRsmn" target="_blank" rel="noopener" aria-label="GitHub" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <path d="M12 2C7.58 2 4 5.58 4 10c0 3.54 2.29 6.54 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.56 7.56 0 0 1 12 6.8c.68.003 1.36.092 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 20 10c0-4.42-3.58-8-8-8z" fill="currentColor"/>
+          </svg>
+        </a>
+
+        <a class="social-link" href="https://www.linkedin.com/in/antonis-rusman-a46424319/" target="_blank" rel="noopener" aria-label="LinkedIn" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M7.5 11.5v5M7.5 8.5v.01M12 16.5v-4c0-1 .6-1.5 1.4-1.5.8 0 1.6.5 1.6 1.6v3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a class="social-link" href="https://instagram.com/_.rusman._" target="_blank" rel="noopener" aria-label="Instagram" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true">
+            <rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/theme.js?v=4"></script>
+<script src="/js/adsense.js"></script>
+<script src="/js/newsletter-footer.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
