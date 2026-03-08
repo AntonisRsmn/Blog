@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const fs = require("fs");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
@@ -224,7 +225,7 @@ app.get("/sitemap.xml", async (req, res) => {
     const fallbackBase = `${req.protocol}://${host}`;
     const baseUrl = (configuredBase || fallbackBase).replace(/\/$/, "");
 
-    const staticPaths = ["/", "/privacy.html", "/cookies.html", "/tos.html"];
+    const staticPaths = ["/", "/privacy", "/cookies", "/tos"];
 
     const posts = await Post.find({ published: true })
       .select("slug createdAt updatedAt")
@@ -253,7 +254,7 @@ app.get("/sitemap.xml", async (req, res) => {
       if (!slug) return;
       const lastmodSource = post?.updatedAt || post?.createdAt || new Date();
       urls.push({
-        loc: `${baseUrl}/post.html?slug=${encodeURIComponent(slug)}`,
+        loc: `${baseUrl}/post?slug=${encodeURIComponent(slug)}`,
         lastmod: new Date(lastmodSource).toISOString()
       });
     });
@@ -280,6 +281,39 @@ app.get("/sitemap.xml", async (req, res) => {
 
 // Serve frontend
 const frontendPath = path.join(__dirname, "..", "frontend");
+const isProduction = String(process.env.NODE_ENV || "").trim().toLowerCase() === "production";
+
+// Clean URLs — redirect .html to clean paths in production,
+// and always rewrite extensionless paths to .html internally.
+app.use((req, res, next) => {
+  if (req.path === "/" || req.path.startsWith("/api/") || req.path === "/sitemap.xml" || req.path === "/robots.txt" || req.path === "/sw.js") {
+    return next();
+  }
+
+  // Production: redirect /page.html → /page (301 for SEO)
+  if (isProduction && req.path.endsWith(".html")) {
+    const cleanPath = req.path.slice(0, -5);
+    const qsStart = req.originalUrl.indexOf("?");
+    const qs = qsStart >= 0 ? req.originalUrl.slice(qsStart) : "";
+    return res.redirect(301, cleanPath + qs);
+  }
+
+  // Clean URL: if no file extension, try serving the .html file
+  if (!path.extname(req.path)) {
+    const candidate = path.resolve(frontendPath, "." + req.path + ".html");
+    if (candidate.startsWith(frontendPath) && fs.existsSync(candidate)) {
+      const qsIndex = req.url.indexOf("?");
+      if (qsIndex >= 0) {
+        req.url = req.url.slice(0, qsIndex) + ".html" + req.url.slice(qsIndex);
+      } else {
+        req.url += ".html";
+      }
+    }
+  }
+
+  next();
+});
+
 app.use("/admin", async (req, res, next) => {
   const publicAdminPages = new Set(["/login.html", "/signup.html"]);
   const staffOnlyAdminPages = new Set([]);
@@ -289,14 +323,14 @@ app.use("/admin", async (req, res, next) => {
 
   const token = req.cookies.token;
   if (!token) {
-    return res.redirect("/no-access.html");
+    return res.redirect("/no-access");
   }
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ["HS256"] });
     const user = await User.findById(payload.userId).select("role");
     if (!user) {
-      return res.redirect("/no-access.html");
+      return res.redirect("/no-access");
     }
 
     if (user.role === "admin") {
@@ -305,16 +339,16 @@ app.use("/admin", async (req, res, next) => {
 
     if (user.role === "staff") {
       if (staffOnlyAdminPages.has(req.path)) {
-        return res.redirect("/no-access.html");
+        return res.redirect("/no-access");
       }
       return next();
     }
 
     if (req.path !== "/profile.html") {
-      return res.redirect("/no-access.html");
+      return res.redirect("/no-access");
     }
   } catch {
-    return res.redirect("/no-access.html");
+    return res.redirect("/no-access");
   }
 
   return next();
@@ -366,7 +400,9 @@ app.use((req, res, next) => {
     return res.status(404).json({ error: "Not found" });
   }
 
-  return res.status(404).sendFile(path.join(frontendPath, "404.html"));
+  return res.status(404).sendFile(path.join(frontendPath, "404.html"), (err) => {
+    if (err) res.status(404).end();
+  });
 });
 
 app.use((err, req, res, next) => {
