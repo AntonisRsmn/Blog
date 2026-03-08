@@ -501,7 +501,7 @@ async function evaluateLink(url, context) {
       return { ok: false, status: 404, reason: "post-not-found", type };
     }
 
-    const staticOk = new Set(["/", "/privacy.html", "/tos.html", "/author.html", "/post.html", "/no-access.html"]);
+    const staticOk = new Set(["/", "/privacy", "/privacy.html", "/tos", "/tos.html", "/author", "/author.html", "/post", "/post.html", "/no-access", "/no-access.html"]);
     if (staticOk.has(parsed.pathname)) {
       return { ok: true, status: 200, reason: "ok", type };
     }

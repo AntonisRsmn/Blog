@@ -205,14 +205,14 @@ async function deleteCategory(name) {
 async function ensureStaffAccess() {
   const response = await fetch("/api/auth/profile");
   if (!response.ok) {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
   const profile = await response.json();
   const role = String(profile.role || "").toLowerCase();
   if (role !== "admin" && role !== "staff") {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 

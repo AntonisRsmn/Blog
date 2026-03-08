@@ -19,13 +19,13 @@ function showStatus(message, kind = "success") {
 async function ensureAdminAccess() {
   const res = await fetch("/api/auth/profile");
   if (!res.ok) {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
   const profile = await res.json();
   if (String(profile?.role || "").toLowerCase() !== "admin") {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
@@ -139,14 +139,14 @@ function renderPendingPosts() {
     item.className = "post-item events-page-item";
     item.innerHTML = `
       <div class="posts-page-main">
-        <a href="/post.html?id=${safeId}${safeSlug ? `&slug=${safeSlug}` : ""}" aria-label="Open ${post.title || "Untitled"}">
+        <a href="/post?id=${safeId}${safeSlug ? `&slug=${safeSlug}` : ""}" aria-label="Open ${post.title || "Untitled"}">
           ${imageUrl
             ? `<img src="${imageUrl}" alt="${post.title || "Untitled"}" class="posts-page-thumb" />`
             : '<div class="posts-page-thumb posts-page-thumb-placeholder" aria-hidden="true"></div>'}
         </a>
         <div class="posts-page-text">
           <div class="post-title-row">
-            <a class="post-item-title" href="/post.html?id=${safeId}${safeSlug ? `&slug=${safeSlug}` : ""}">${post.title || "Untitled"}</a>
+            <a class="post-item-title" href="/post?id=${safeId}${safeSlug ? `&slug=${safeSlug}` : ""}">${post.title || "Untitled"}</a>
           </div>
           <span class="release-event-date">by ${post.author || "Unknown"} • /${post.slug || ""}</span>
         </div>
@@ -172,7 +172,7 @@ function openAdminPostEditor(encodedPostId) {
     return;
   }
 
-  adminEditorFrame.src = `/admin/posts.html?editId=${encodedPostId}&embed=1`;
+  adminEditorFrame.src = `/admin/posts?editId=${encodedPostId}&embed=1`;
   adminEditorOverlay.hidden = false;
   document.body.style.overflow = "hidden";
 }

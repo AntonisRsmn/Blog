@@ -45,14 +45,14 @@ function postMatchesQuery(post, rawQuery) {
 async function ensureTeacherAccess() {
   const res = await fetch("/api/auth/profile");
   if (!res.ok) {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
   const profile = await res.json();
   const role = String(profile?.role || "").trim().toLowerCase();
   if (role !== "staff" && role !== "uploader" && role !== "teacher") {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
@@ -80,7 +80,7 @@ function renderList() {
     li.className = "post-item posts-page-item";
     const safePostId = encodeURIComponent(post._id || "");
     const safeSlug = encodeURIComponent(post.slug || "");
-    const postUrl = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    const postUrl = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     const imageUrl = String(post?.thumbnailUrl || "").trim();
     const submissionBadge = getPendingSubmissionBadgeHtml(post);
 
@@ -127,7 +127,7 @@ function openTeacherPostEditor(encodedPostId) {
     return;
   }
 
-  teacherEditorFrame.src = `/admin/posts.html?editId=${encodedPostId}&embed=1`;
+  teacherEditorFrame.src = `/admin/posts?editId=${encodedPostId}&embed=1`;
   teacherEditorOverlay.hidden = false;
   document.body.style.overflow = "hidden";
 }

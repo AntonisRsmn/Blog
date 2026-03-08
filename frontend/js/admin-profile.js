@@ -166,7 +166,7 @@ document.getElementById("passwordForm").addEventListener("submit", async e => {
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await fetch("/api/auth/logout", { method: "POST" });
-  window.location.href = "/admin/login.html";
+  window.location.href = "/admin/login";
 });
 
 loadProfile();

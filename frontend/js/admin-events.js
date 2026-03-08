@@ -149,7 +149,7 @@ function renderEventsList() {
     li.className = "post-item events-page-item";
     li.innerHTML = `
       <div class="release-event-main">
-            <a class="post-item-title" href="/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}" target="_blank" rel="noopener">${post.title}</a>
+            <a class="post-item-title" href="/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}" target="_blank" rel="noopener">${post.title}</a>
         <span class="release-event-date">${formatCalendarDate(post.releaseDate)} • /${post.slug}</span>
       </div>
       <div class="post-item-actions">
@@ -297,13 +297,13 @@ async function openEventFromQuery() {
 async function ensureStaffAccess() {
   const response = await fetch("/api/auth/profile");
   if (!response.ok) {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return;
   }
 
   const profile = await response.json();
   if (profile.role !== "admin" && profile.role !== "staff") {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return;
   }
 }

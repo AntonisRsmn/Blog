@@ -381,12 +381,12 @@ function updateBreadcrumbStructuredData(payload) {
 function buildCanonicalPostUrl(post) {
   const slug = String(post?.slug || "").trim();
   if (slug) {
-    return toSafeHttpUrl(`/post.html?slug=${encodeURIComponent(slug)}`);
+    return toSafeHttpUrl(`/post?slug=${encodeURIComponent(slug)}`);
   }
 
   const id = String(post?._id || "").trim();
   if (id) {
-    return toSafeHttpUrl(`/post.html?id=${encodeURIComponent(id)}`);
+    return toSafeHttpUrl(`/post?id=${encodeURIComponent(id)}`);
   }
 
   return toSafeHttpUrl(window.location.href);
@@ -1038,10 +1038,10 @@ function getPostImageUrl(post) {
 
 function getPostHref(post) {
   const encodedSlug = encodeURIComponent(String(post?.slug || ""));
-  if (encodedSlug) return `post.html?slug=${encodedSlug}`;
+  if (encodedSlug) return `post?slug=${encodedSlug}`;
 
   const encodedId = encodeURIComponent(String(post?._id || ""));
-  return encodedId ? `post.html?id=${encodedId}` : "post.html";
+  return encodedId ? `post?id=${encodedId}` : "post";
 }
 
 function normalizePostCategories(post) {
@@ -1828,7 +1828,7 @@ async function loadPost() {
 
   if (postForDisplay.author) {
     const authorName = escapeHtml(postForDisplay.author);
-    const authorHref = `/author.html?author=${encodeURIComponent(String(postForDisplay.author || "").trim())}`;
+    const authorHref = `/author?author=${encodeURIComponent(String(postForDisplay.author || "").trim())}`;
     metaParts.push(`By <a class="article-meta-author" href="${authorHref}">${authorName}</a>`);
   }
 
@@ -2589,8 +2589,8 @@ function renderReleaseCalendar() {
         const encodedEventId = encodeURIComponent(String(event.id || ""));
         const encodedEventSlug = encodeURIComponent(String(event.slug || ""));
         window.location.href = encodedEventId
-          ? `post.html?id=${encodedEventId}${encodedEventSlug ? `&slug=${encodedEventSlug}` : ""}`
-          : `post.html?slug=${encodedEventSlug}`;
+          ? `post?id=${encodedEventId}${encodedEventSlug ? `&slug=${encodedEventSlug}` : ""}`
+          : `post?slug=${encodedEventSlug}`;
       });
       item.addEventListener("keydown", e => {
         if (e.key === "Enter" || e.key === " ") {
@@ -2598,8 +2598,8 @@ function renderReleaseCalendar() {
           const encodedEventId = encodeURIComponent(String(event.id || ""));
           const encodedEventSlug = encodeURIComponent(String(event.slug || ""));
           window.location.href = encodedEventId
-            ? `post.html?id=${encodedEventId}${encodedEventSlug ? `&slug=${encodedEventSlug}` : ""}`
-            : `post.html?slug=${encodedEventSlug}`;
+            ? `post?id=${encodedEventId}${encodedEventSlug ? `&slug=${encodedEventSlug}` : ""}`
+            : `post?slug=${encodedEventSlug}`;
         }
       });
     }

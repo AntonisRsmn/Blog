@@ -17,11 +17,11 @@ document.getElementById("loginForm")?.addEventListener("submit", async e => {
 
   const profileRes = await fetch(`${API_BASE}/auth/profile`);
   if (!profileRes.ok) {
-    window.location.href = "/admin/login.html";
+    window.location.href = "/admin/login";
     return;
   }
 
   const profile = await profileRes.json();
   const isAdminRole = profile.role === "admin" || profile.role === "staff";
-  window.location.href = isAdminRole ? "/admin/dashboard.html" : "/admin/profile.html";
+  window.location.href = isAdminRole ? "/admin/dashboard" : "/admin/profile";
 });

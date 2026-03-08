@@ -54,7 +54,7 @@ function renderList() {
     title.className = "post-item-title analytics-item-title";
     const safePostId = encodeURIComponent(item?._id || "");
     const safeSlug = encodeURIComponent(item?.slug || "");
-    title.href = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    title.href = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     title.textContent = item?.title || "Untitled";
 
     const meta = document.createElement("span");

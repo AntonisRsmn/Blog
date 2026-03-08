@@ -12,13 +12,13 @@ window.addEventListener('DOMContentLoaded', updateThemeLabel);
 async function ensureStaffAccess() {
   const res = await fetch("/api/auth/profile");
   if (!res.ok) {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
   const profile = await res.json();
   if (profile.role !== "admin" && profile.role !== "staff") {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
@@ -1056,7 +1056,7 @@ function renderFeaturedPostsList() {
     li.className = "post-item events-page-item";
     li.innerHTML = `
       <div class="release-event-main">
-        <a class="post-item-title" href="/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}">${post.title}</a>
+        <a class="post-item-title" href="/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}">${post.title}</a>
         <span class="release-event-date">Added: ${formatCalendarDate(post.featuredAddedAt || post.createdAt)}</span>
       </div>
       <div class="post-item-actions">
@@ -1182,7 +1182,7 @@ function renderDashboardLinkSuggestions() {
     li.className = "post-item";
     const safePostId = encodeURIComponent(post?._id || "");
     const safeSlug = encodeURIComponent(post?.slug || "");
-    const href = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    const href = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     li.innerHTML = `
       <a class="post-item-title" href="${href}" target="_blank" rel="noopener">${post?.title || "Untitled"}</a>
       <span class="release-event-date">/${post?.slug || ""} • relevance ${score}</span>
@@ -1269,7 +1269,7 @@ function renderPostsList() {
     const imageUrl = getPostImageUrl(p);
     const safePostId = encodeURIComponent(p._id || "");
     const safeSlug = encodeURIComponent(p.slug || "");
-    const postUrl = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    const postUrl = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     const moderationBanner = getPostModerationBanner(p);
     const submissionBadge = getPendingSubmissionBadgeHtml(p);
     const approvalInfo = getPostApprovalInfo(p);
@@ -1345,7 +1345,7 @@ function renderPendingApprovalsList() {
         </div>
         <div class="posts-page-text">
           <div class="post-title-row">
-            <a href="/post.html?id=${safeId}${safeSlug ? `&slug=${safeSlug}` : ''}" class="post-item-title">${post.title}</a>
+            <a href="/post?id=${safeId}${safeSlug ? `&slug=${safeSlug}` : ''}" class="post-item-title">${post.title}</a>
           </div>
           <span class="release-event-date">by ${post.author || "Unknown"} • /${post.slug || ""}</span>
         </div>
@@ -1392,7 +1392,7 @@ function renderStaffAwaitingList() {
     const li = document.createElement("li");
     const safePostId = encodeURIComponent(post._id || "");
     const safeSlug = encodeURIComponent(post.slug || "");
-    const postUrl = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    const postUrl = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     const imageUrl = getPostImageUrl(post);
     const submissionBadge = getPendingSubmissionBadgeHtml(post);
     li.className = "post-item posts-page-item";
@@ -1555,7 +1555,7 @@ function renderReleaseEventsList() {
     const safeSlug = encodeURIComponent(post.slug || "");
     li.innerHTML = `
       <div class="release-event-main">
-        <a class="post-item-title" href="/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}">${post.title}</a>
+        <a class="post-item-title" href="/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}">${post.title}</a>
         <span class="release-event-date">${formatCalendarDate(post.releaseDate)}</span>
       </div>
       <div class="post-item-actions">

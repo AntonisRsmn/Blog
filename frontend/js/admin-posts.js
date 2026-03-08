@@ -318,7 +318,7 @@ function renderPostEditLinkSuggestions() {
     li.className = "post-item";
     const safePostId = encodeURIComponent(post?._id || "");
     const safeSlug = encodeURIComponent(post?.slug || "");
-    const href = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    const href = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     li.innerHTML = `
       <a class="post-item-title" href="${href}" target="_blank" rel="noopener">${post?.title || "Untitled"}</a>
       <span class="release-event-date">/${post?.slug || ""} • relevance ${score}</span>
@@ -659,13 +659,13 @@ async function openCreatePostModal() {
 async function ensureStaffAccess() {
   const res = await fetch("/api/auth/profile");
   if (!res.ok) {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
   const profile = await res.json();
   if (profile.role !== "admin" && profile.role !== "staff") {
-    window.location.href = "/no-access.html";
+    window.location.href = "/no-access";
     return false;
   }
 
@@ -852,7 +852,7 @@ function renderPostsList() {
     const imageUrl = getPostImageUrl(post);
     const safePostId = encodeURIComponent(post._id || "");
     const safeSlug = encodeURIComponent(post.slug || "");
-    const postUrl = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
+    const postUrl = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ""}`;
     const moderationBanner = getPostModerationBanner(post);
     const submissionBadge = getPendingSubmissionBadgeHtml(post);
     const approvalInfo = getPostApprovalInfo(post);

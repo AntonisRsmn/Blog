@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
@@ -15,7 +15,7 @@
     <button type="button" id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Άνοιγμα μενού" aria-controls="mobile-sidebar" aria-expanded="false">☰</button>
     <nav>
       <a href="/" class="nav-link">Αρχική</a>
-      <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+      <a href="/admin/login" class="nav-link" data-auth-link>Σύνδεση</a>
       <button id="theme-toggle"></button>
     </nav>
   </div>
@@ -29,9 +29,9 @@
   </div>
   <nav class="mobile-sidebar-nav">
     <a href="/" class="nav-link">Αρχική</a>
-    <a href="/admin/dashboard.html" class="nav-link" data-staff-only hidden>Πίνακας</a>
-    <a href="/admin/staff.html" class="nav-link" data-staff-only hidden>Πρόσβαση</a>
-    <a href="/admin/login.html" class="nav-link" data-auth-link>Σύνδεση</a>
+    <a href="/admin/dashboard" class="nav-link" data-staff-only hidden>Πίνακας</a>
+    <a href="/admin/staff" class="nav-link" data-staff-only hidden>Πρόσβαση</a>
+    <a href="/admin/login" class="nav-link" data-auth-link>Σύνδεση</a>
     <div class="mobile-theme-row">
       <span>Θέμα</span>
       <button type="button" id="mobile-theme-toggle" class="mobile-theme-switch" aria-label="Εναλλαγή θέματος"></button>
@@ -95,7 +95,7 @@
         <button type="submit">Εγγραφή</button>
       </form>
       <p style="margin-top: 12px; text-align: center; color: var(--text-muted);">
-        Έχετε ήδη λογαριασμό; <a href="/admin/login.html">Sign in</a>
+        Έχετε ήδη λογαριασμό; <a href="/admin/login">Sign in</a>
       </p>
       <div id="error" class="error"></div>
     </div>
@@ -125,8 +125,8 @@
 
     <div class="footer-center">
       <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="/tos.html">Όροι Χρήσης</a>
-        <a href="/privacy.html">Πολιτική Απορρήτου</a>
+        <a href="/tos">Όροι Χρήσης</a>
+        <a href="/privacy">Πολιτική Απορρήτου</a>
       </nav>
     </div>
 
@@ -222,7 +222,7 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
 
   if (!res.ok) {
     if (res.status === 409) {
-      error.innerHTML = 'This email is already registered. Please <a href="/admin/login.html" style="color: var(--accent); text-decoration: underline;">log in</a> instead.';
+      error.innerHTML = 'This email is already registered. Please <a href="/admin/login" style="color: var(--accent); text-decoration: underline;">log in</a> instead.';
     } else if (res.status === 400) {
       const data = await res.json();
       error.textContent = data.error || "Sign up failed. Try again.";
@@ -233,7 +233,7 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     return;
   }
 
-  window.location.href = "/admin/profile.html";
+  window.location.href = "/admin/profile";
 });
 </script>
 

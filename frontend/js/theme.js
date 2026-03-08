@@ -58,38 +58,39 @@ function ensurePageSeoMeta() {
   const pathname = String(window.location.pathname || '/');
   const pageTitleByPath = {
     '/': `${BRAND_NAME} | Ιστολόγιο`,
-    '/post.html': `Άρθρο | ${BRAND_NAME}`,
-    '/author.html': `Συγγραφέας | ${BRAND_NAME}`,
-    '/privacy.html': `Πολιτική Απορρήτου | ${BRAND_NAME}`,
-    '/cookies.html': `Πολιτική Cookies | ${BRAND_NAME}`,
-    '/tos.html': `Όροι Χρήσης | ${BRAND_NAME}`,
-    '/404.html': `Η σελίδα δεν βρέθηκε | ${BRAND_NAME}`,
-    '/no-access.html': `Δεν επιτρέπεται πρόσβαση | ${BRAND_NAME}`,
-    '/admin/login.html': `Σύνδεση διαχειριστή | ${BRAND_NAME}`,
-    '/admin/signup.html': `Εγγραφή διαχειριστή | ${BRAND_NAME}`,
-    '/admin/dashboard.html': `Πίνακας διαχείρισης | ${BRAND_NAME}`
+    '/post': `Άρθρο | ${BRAND_NAME}`,
+    '/author': `Συγγραφέας | ${BRAND_NAME}`,
+    '/privacy': `Πολιτική Απορρήτου | ${BRAND_NAME}`,
+    '/cookies': `Πολιτική Cookies | ${BRAND_NAME}`,
+    '/tos': `Όροι Χρήσης | ${BRAND_NAME}`,
+    '/404': `Η σελίδα δεν βρέθηκε | ${BRAND_NAME}`,
+    '/no-access': `Δεν επιτρέπεται πρόσβαση | ${BRAND_NAME}`,
+    '/admin/login': `Σύνδεση διαχειριστή | ${BRAND_NAME}`,
+    '/admin/signup': `Εγγραφή διαχειριστή | ${BRAND_NAME}`,
+    '/admin/dashboard': `Πίνακας διαχείρισης | ${BRAND_NAME}`
   };
 
   const pageDescriptionByPath = {
     '/': `Τελευταία άρθρα και ενημερώσεις από το ${BRAND_NAME}.`,
-    '/post.html': `Διαβάστε το πιο πρόσφατο άρθρο στο ${BRAND_NAME}.`,
-    '/author.html': `Δείτε όλα τα άρθρα αυτού του συγγραφέα στο ${BRAND_NAME}.`,
-    '/privacy.html': `Μάθετε πώς το ${BRAND_NAME} επεξεργάζεται και προστατεύει τα προσωπικά σας δεδομένα.`,
-    '/cookies.html': `Δείτε ποια cookies και παρόμοιες τεχνολογίες χρησιμοποιεί το ${BRAND_NAME} και πώς τα διαχειρίζεστε.`,
-    '/tos.html': `Διαβάστε τους Όρους Χρήσης του ${BRAND_NAME}.`,
-    '/404.html': `Η σελίδα που ζητήσατε δεν βρέθηκε.`,
-    '/no-access.html': `Δεν έχετε πρόσβαση σε αυτή τη σελίδα.`,
-    '/admin/login.html': `Ασφαλής σύνδεση για διαχειριστές του ${BRAND_NAME}.`,
-    '/admin/signup.html': `Δημιουργήστε λογαριασμό διαχειριστή για το ${BRAND_NAME}.`,
-    '/admin/dashboard.html': `Διαχειριστείτε αναρτήσεις και περιεχόμενο από τον πίνακα του ${BRAND_NAME}.`
+    '/post': `Διαβάστε το πιο πρόσφατο άρθρο στο ${BRAND_NAME}.`,
+    '/author': `Δείτε όλα τα άρθρα αυτού του συγγραφέα στο ${BRAND_NAME}.`,
+    '/privacy': `Μάθετε πώς το ${BRAND_NAME} επεξεργάζεται και προστατεύει τα προσωπικά σας δεδομένα.`,
+    '/cookies': `Δείτε ποια cookies και παρόμοιες τεχνολογίες χρησιμοποιεί το ${BRAND_NAME} και πώς τα διαχειρίζεστε.`,
+    '/tos': `Διαβάστε τους Όρους Χρήσης του ${BRAND_NAME}.`,
+    '/404': `Η σελίδα που ζητήσατε δεν βρέθηκε.`,
+    '/no-access': `Δεν έχετε πρόσβαση σε αυτή τη σελίδα.`,
+    '/admin/login': `Ασφαλής σύνδεση για διαχειριστές του ${BRAND_NAME}.`,
+    '/admin/signup': `Δημιουργήστε λογαριασμό διαχειριστή για το ${BRAND_NAME}.`,
+    '/admin/dashboard': `Διαχειριστείτε αναρτήσεις και περιεχόμενο από τον πίνακα του ${BRAND_NAME}.`
   };
 
+  const normalizedPathname = pathname.endsWith('.html') ? pathname.slice(0, -5) : pathname;
   const normalizedTitle = String(document.title || '').trim();
   if (!normalizedTitle || !normalizedTitle.includes('|')) {
-    document.title = pageTitleByPath[pathname] || `${normalizedTitle || 'Page'} | ${BRAND_NAME}`;
+    document.title = pageTitleByPath[normalizedPathname] || `${normalizedTitle || 'Page'} | ${BRAND_NAME}`;
   }
 
-  const desiredDescription = pageDescriptionByPath[pathname] || `Επίσημη σελίδα του ${BRAND_NAME}.`;
+  const desiredDescription = pageDescriptionByPath[normalizedPathname] || `Επίσημη σελίδα του ${BRAND_NAME}.`;
   let descriptionTag = document.head.querySelector('meta[name="description"]');
   if (!descriptionTag) {
     descriptionTag = document.createElement('meta');
@@ -125,19 +126,19 @@ function normalizeAdDisclosureText() {
 function ensureFooterComplianceLinks() {
   const footerNavs = document.querySelectorAll('.footer-nav');
   footerNavs.forEach((nav) => {
-    const hasTerms = Boolean(nav.querySelector('a[href="/tos.html"]'));
-    const hasPrivacy = Boolean(nav.querySelector('a[href="/privacy.html"]'));
+    const hasTerms = Boolean(nav.querySelector('a[href="/tos"], a[href="/tos.html"]'));
+    const hasPrivacy = Boolean(nav.querySelector('a[href="/privacy"], a[href="/privacy.html"]'));
 
     if (!hasTerms) {
       const termsLink = document.createElement('a');
-      termsLink.href = '/tos.html';
+      termsLink.href = '/tos';
       termsLink.textContent = 'Όροι Χρήσης';
       nav.appendChild(termsLink);
     }
 
     if (!hasPrivacy) {
       const privacyLink = document.createElement('a');
-      privacyLink.href = '/privacy.html';
+      privacyLink.href = '/privacy';
       privacyLink.textContent = 'Πολιτική Απορρήτου';
       nav.appendChild(privacyLink);
     }
@@ -207,7 +208,7 @@ function ensureGlobalBackToTopButton() {
 
 function logout() {
   document.cookie = 'token=; Max-Age=0; path=/';
-  window.location.href = '/admin/login.html';
+  window.location.href = '/admin/login';
 }
 
 window.logout = logout;
@@ -271,8 +272,8 @@ function ensureCookieSettingsButton() {
     ? localizeTextValue('Cookie Settings', currentUiLanguage)
     : 'Ρυθμίσεις cookies';
 
-  const termsLink = footerNav.querySelector('a[href="/tos.html"]');
-  const privacyLink = footerNav.querySelector('a[href="/privacy.html"]');
+  const termsLink = footerNav.querySelector('a[href="/tos"], a[href="/tos.html"]');
+  const privacyLink = footerNav.querySelector('a[href="/privacy"], a[href="/privacy.html"]');
 
   if (termsLink && privacyLink && termsLink.nextSibling === privacyLink) {
     footerNav.insertBefore(link, privacyLink);
@@ -324,7 +325,7 @@ function ensureCookieManageModal() {
         <button type="button" id="cookie-manage-close" class="secondary" aria-label="Κλείσιμο">Κλείσιμο</button>
       </div>
       <p>Επιλέξτε τι επιτρέπετε. Τα απαραίτητα cookies είναι πάντα ενεργά.</p>
-      <p><a href="/cookies.html">Διαβάστε την πλήρη Πολιτική Cookies</a></p>
+      <p><a href="/cookies">Διαβάστε την πλήρη Πολιτική Cookies</a></p>
 
       <div class="cookie-consent-grid">
         <label class="cookie-consent-item">
@@ -1782,7 +1783,7 @@ function ensureLanguageToggleButtons() {
   const desktopNav = document.querySelector('header .header-inner nav');
   if (desktopNav && !desktopNav.querySelector('[data-language-toggle]')) {
     const button = createToggleButton();
-    const profileLink = desktopNav.querySelector('a[href="/admin/profile.html"], a[data-auth-link]');
+    const profileLink = desktopNav.querySelector('a[href="/admin/profile"], a[href="/admin/profile.html"], a[data-auth-link]');
     if (profileLink && profileLink.parentNode === desktopNav) {
       desktopNav.insertBefore(button, profileLink.nextSibling);
     } else {
@@ -1886,10 +1887,10 @@ async function updateAuthLinks() {
   authLinks.forEach(link => {
     if (profile) {
       link.textContent = localizeTextValue('Profile', currentUiLanguage);
-      link.href = '/admin/profile.html';
+      link.href = '/admin/profile';
     } else {
       link.textContent = localizeTextValue('Login', currentUiLanguage);
-      link.href = '/admin/login.html';
+      link.href = '/admin/login';
     }
   });
 }
@@ -1905,7 +1906,7 @@ async function updateStaffLinks() {
   const profile = await getProfile();
   staffLinks.forEach(link => {
     const href = String(link.getAttribute('href') || '');
-    const isStaffManagementLink = href.includes('/admin/staff.html');
+    const isStaffManagementLink = href.includes('/admin/staff');
     const isAdminOrStaff = profile && (profile.role === 'admin' || profile.role === 'staff');
     const isAdmin = profile && profile.role === 'admin';
 
@@ -1927,7 +1928,7 @@ function removeDashboardPendingBadges() {
 }
 
 function applyDashboardPendingBadge(pendingCount) {
-  const dashboardLinks = document.querySelectorAll('a[data-staff-only][href="/admin/dashboard.html"]');
+  const dashboardLinks = document.querySelectorAll('a[data-staff-only][href="/admin/dashboard"], a[data-staff-only][href="/admin/dashboard.html"]');
   if (!dashboardLinks.length) return;
 
   const normalizedCount = Number.isFinite(Number(pendingCount))
@@ -2049,7 +2050,8 @@ async function updateGuestLinks() {
 function initializeAdminSessionGuard() {
   const path = String(window.location.pathname || "");
   const isAdminArea = path.startsWith('/admin/');
-  const isPublicAdminPage = path === '/admin/login.html' || path === '/admin/signup.html';
+  const cleanPath = path.endsWith('.html') ? path.slice(0, -5) : path;
+  const isPublicAdminPage = cleanPath === '/admin/login' || cleanPath === '/admin/signup';
   if (!isAdminArea || isPublicAdminPage) return;
 
   const checkSession = async () => {
@@ -2057,7 +2059,7 @@ function initializeAdminSessionGuard() {
       const response = await fetch('/api/auth/profile', { cache: 'no-store' });
       if (!response.ok) {
         document.cookie = 'token=; Max-Age=0; path=/';
-        window.location.href = '/admin/login.html';
+        window.location.href = '/admin/login';
       }
     } catch {
     }
@@ -2157,7 +2159,7 @@ function createEventLink(eventItem) {
   if (!slug) return null;
   const anchor = document.createElement('a');
   anchor.className = 'today-events-item';
-  anchor.href = `/post.html?slug=${encodeURIComponent(slug)}`;
+  anchor.href = `/post?slug=${encodeURIComponent(slug)}`;
   anchor.textContent = String(eventItem?.title || 'Untitled event');
   return anchor;
 }

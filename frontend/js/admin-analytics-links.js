@@ -36,7 +36,7 @@ function renderResults(payload) {
     li.className = 'post-item';
     const safePostId = encodeURIComponent(item?.postId || '');
     const safeSlug = encodeURIComponent(item?.slug || '');
-    const postHref = `/post.html?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ''}`;
+    const postHref = `/post?id=${safePostId}${safeSlug ? `&slug=${safeSlug}` : ''}`;
     const targetUrl = String(item?.url || '').trim();
     const typeLabel = String(item?.type || '').toUpperCase();
     li.innerHTML = `

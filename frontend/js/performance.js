@@ -5,14 +5,16 @@
       const url = new URL(window.location.href);
       const pathname = String(url.pathname || "/");
 
-      if (pathname === "/post.html") {
+      const cleanPathname = pathname.endsWith('.html') ? pathname.slice(0, -5) : pathname;
+
+      if (cleanPathname === "/post") {
         const slug = String(url.searchParams.get("slug") || "").trim();
-        return slug ? `/post.html?slug=${slug}` : pathname;
+        return slug ? `/post?slug=${slug}` : cleanPathname;
       }
 
-      if (pathname === "/author.html") {
+      if (cleanPathname === "/author") {
         const author = String(url.searchParams.get("author") || "").trim();
-        return author ? `/author.html?author=${author}` : pathname;
+        return author ? `/author?author=${author}` : cleanPathname;
       }
 
       return pathname;
