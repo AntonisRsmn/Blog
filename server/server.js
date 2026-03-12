@@ -20,6 +20,7 @@ const commentRoutes = require("./routes/comments");
 const staffRoutes = require("./routes/staff");
 const metricsRoutes = require("./routes/metrics");
 const newsletterRoutes = require("./routes/newsletter");
+const translateRoutes = require("./routes/translate");
 
 const app = express();
 
@@ -217,6 +218,7 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/metrics", metricsRoutes);
 app.use("/api/newsletter", newsletterRoutes);
+app.use("/api/translate", translateRoutes);
 
 app.get("/sitemap.xml", async (req, res) => {
   try {

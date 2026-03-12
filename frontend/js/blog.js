@@ -27,6 +27,8 @@ let authorPageName = "";
 let authorPageTotalCount = 0;
 let authorPageRenderCallback = null;
 const authorDisplayNameCache = new Map();
+let currentPostData = null;
+const originalCardTexts = new Map();
 
 function isEmailLike(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
@@ -699,6 +701,85 @@ function extractYouTubeVideoId(source) {
   return /^[a-zA-Z0-9_-]{11}$/.test(candidate) ? candidate : "";
 }
 
+function renderContentBlocks(blocks, fallbackTitle) {
+  if (!Array.isArray(blocks)) return "";
+  return blocks.map(block => {
+    if (block.type === "paragraph") {
+      return renderParagraphBlock(block.data?.text || "");
+    }
+    if (block.type === "list") {
+      return renderListBlock(block.data || {});
+    }
+    if (block.type === "header") {
+      const levelRaw = Number(block.data?.level || 2);
+      const level = Math.min(Math.max(levelRaw, 2), 3);
+      const text = String(block.data?.text || "").replace(/<[^>]*>/g, " ").trim();
+      if (!text) return "";
+      const safeText = escapeHtml(text);
+      const headingId = toHeadingId(text, "section");
+      return `<h${level} id="${headingId}">${safeText}</h${level}>`;
+    }
+    if (block.type === "image") {
+      const imgUrl = toSafeHttpUrl(block.data?.file?.url || block.data?.url || block.data?.file);
+      if (!imgUrl) return "";
+      const imageAlt = escapeHtml(getImageAltFromBlock(block, fallbackTitle || "Article image"));
+      return `<img src="${imgUrl}" alt="${imageAlt}" class="article-image" loading="lazy" decoding="async">`;
+    }
+    if (block.type === "embed" && block.data.service === "youtube") {
+      const videoId = extractYouTubeVideoId(block.data?.source);
+      if (!videoId) return "";
+      return `
+        <div class="article-embed">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      `;
+    }
+    if (block.type === "embed" && block.data?.service === "twitter") {
+      const twitterUrl = extractTwitterStatusUrl(block.data?.source || block.data?.embed || "");
+      if (!twitterUrl) return "";
+      const safeUrl = escapeHtml(twitterUrl);
+      return `
+        <div class="article-embed article-embed-tweet">
+          <blockquote class="twitter-tweet">
+            <a href="${safeUrl}">${safeUrl}</a>
+          </blockquote>
+        </div>
+      `;
+    }
+    if (block.type === "quote") {
+      const rawQuoteText = String(block.data?.text || "");
+      const quoteCaption = escapeHtml(block.data?.caption || "");
+      const normalizedQuoteText = rawQuoteText.replace(/\r\n/g, "\n").replace(/<br\b[^>]*>/gi, "\n").trim();
+      if (!normalizedQuoteText) return "";
+      const hasParagraphBreaks = /\n\s*\n+/.test(normalizedQuoteText);
+      let quoteTextHtml = "";
+      if (hasParagraphBreaks) {
+        quoteTextHtml = normalizedQuoteText
+          .split(/\n\s*\n+/)
+          .map(part => part.replace(/\n+/g, " ").replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+          .map(part => `<p>${renderLinkedText(part)}</p>`)
+          .join("");
+      } else {
+        quoteTextHtml = `<p>${renderLinkedText(normalizedQuoteText).replace(/\n/g, "<br>")}</p>`;
+      }
+      return `
+        <blockquote class="article-quote">
+          ${quoteTextHtml}
+          ${quoteCaption ? `<cite>${quoteCaption}</cite>` : ""}
+        </blockquote>
+      `;
+    }
+    return "";
+  }).join("") || "";
+}
+
 async function loadPosts() {
   const container = document.getElementById("home");
   if (!container) return;
@@ -1130,6 +1211,7 @@ async function renderRelatedPosts(currentPost, articleContainer) {
     card.className = "related-post-card";
     card.href = getPostHref(post);
     card.setAttribute("data-perf-source", "related-post-click");
+    if (post?._id) card.dataset.postId = post._id;
 
     const imageUrl = optimizeCloudinaryImageUrl(toSafeHttpUrl(getPostImageUrl(post)), { maxWidth: 720 });
     const hasImage = Boolean(imageUrl);
@@ -1197,6 +1279,7 @@ function createFeaturedRotator(posts) {
     slide.className = "featured-rotator-slide";
     slide.href = getPostHref(post);
     slide.setAttribute("aria-hidden", index === 0 ? "false" : "true");
+    if (post._id) slide.dataset.postId = post._id;
 
     const imageUrl = optimizeCloudinaryImageUrl(toSafeHttpUrl(getPostImageUrl(post)), { maxWidth: 1280 });
     const date = new Date(post.createdAt).toLocaleDateString("en-US", {
@@ -1299,6 +1382,7 @@ function createFeaturedSplit(posts) {
   leadCard.className = "featured-split-lead";
   leadCard.href = getPostHref(lead);
   leadCard.addEventListener("click", () => trackHomeHeroExperiment("click", "B", lead));
+  if (lead._id) leadCard.dataset.postId = lead._id;
 
   const leadImageUrl = optimizeCloudinaryImageUrl(toSafeHttpUrl(getPostImageUrl(lead)), { maxWidth: 1280 });
   const leadDate = new Date(lead.createdAt).toLocaleDateString("en-US", {
@@ -1326,6 +1410,7 @@ function createFeaturedSplit(posts) {
     item.className = "featured-split-item";
     item.href = getPostHref(post);
     item.addEventListener("click", () => trackHomeHeroExperiment("click", "B", post));
+    if (post._id) item.dataset.postId = post._id;
 
     const safeTitle = escapeHtml(post.title || "Untitled");
     const safeExcerpt = escapeHtml(getDisplayExcerpt(post, 90));
@@ -1345,6 +1430,7 @@ function createPostCard(post, options = {}) {
   const card = document.createElement("a");
   card.href = getPostHref(post);
   card.className = "post-card";
+  if (post._id) card.dataset.postId = post._id;
 
   const imageLoading = options.imageLoading === "eager" ? "eager" : "lazy";
   const imageFetchPriority = options.imageFetchPriority === "high" ? "high" : "auto";
@@ -1722,100 +1808,10 @@ async function loadPost() {
   };
 
   currentPostId = post._id;
+  currentPostData = post;
   const heroImage = post.content?.find(b => b.type === "image");
 
-  const bodyHtml = post.content?.map(block => {
-
-    if (block.type === "paragraph") {
-      return renderParagraphBlock(block.data?.text || "");
-    }
-
-    if (block.type === "list") {
-      return renderListBlock(block.data || {});
-    }
-
-    if (block.type === "header") {
-      const levelRaw = Number(block.data?.level || 2);
-      const level = Math.min(Math.max(levelRaw, 2), 3);
-      const text = String(block.data?.text || "").replace(/<[^>]*>/g, " ").trim();
-      if (!text) return "";
-      const safeText = escapeHtml(text);
-      const headingId = toHeadingId(text, "section");
-      return `<h${level} id="${headingId}">${safeText}</h${level}>`;
-    }
-
-    if (block.type === "image") {
-      const imgUrl = toSafeHttpUrl(block.data?.file?.url || 
-                     block.data?.url || 
-                     block.data?.file);
-      if (!imgUrl) return "";
-      const imageAlt = escapeHtml(getImageAltFromBlock(block, post?.title || "Article image"));
-      return `<img src="${imgUrl}" alt="${imageAlt}" class="article-image" loading="lazy" decoding="async">`;
-    }
-
-    if (block.type === "embed" && block.data.service === "youtube") {
-      const videoId = extractYouTubeVideoId(block.data?.source);
-      if (!videoId) return "";
-      return `
-        <div class="article-embed">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-        </div>
-      `;
-    }
-
-    if (block.type === "embed" && block.data?.service === "twitter") {
-      const twitterUrl = extractTwitterStatusUrl(block.data?.source || block.data?.embed || "");
-      if (!twitterUrl) return "";
-      const safeUrl = escapeHtml(twitterUrl);
-      return `
-        <div class="article-embed article-embed-tweet">
-          <blockquote class="twitter-tweet">
-            <a href="${safeUrl}">${safeUrl}</a>
-          </blockquote>
-        </div>
-      `;
-    }
-
-    if (block.type === "quote") {
-      const rawQuoteText = String(block.data?.text || "");
-      const quoteCaption = escapeHtml(block.data?.caption || "");
-      const normalizedQuoteText = rawQuoteText
-        .replace(/\r\n/g, "\n")
-        .replace(/<br\b[^>]*>/gi, "\n")
-        .trim();
-
-      if (!normalizedQuoteText) return "";
-
-      const hasParagraphBreaks = /\n\s*\n+/.test(normalizedQuoteText);
-      let quoteTextHtml = "";
-
-      if (hasParagraphBreaks) {
-        quoteTextHtml = normalizedQuoteText
-          .split(/\n\s*\n+/)
-          .map(part => part.replace(/\n+/g, " ").replace(/\s+/g, " ").trim())
-          .filter(Boolean)
-          .map(part => `<p>${renderLinkedText(part)}</p>`)
-          .join("");
-      } else {
-        quoteTextHtml = `<p>${renderLinkedText(normalizedQuoteText).replace(/\n/g, "<br>")}</p>`;
-      }
-
-      return `
-        <blockquote class="article-quote">
-          ${quoteTextHtml}
-          ${quoteCaption ? `<cite>${quoteCaption}</cite>` : ""}
-        </blockquote>
-      `;
-    }
-
-    return "";
-  }).join("") || "";
+  const bodyHtml = renderContentBlocks(post.content || [], post.title || "");
 
   const date = new Date(post.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -2825,6 +2821,115 @@ function initializeNewsletterCapture() {
   });
 }
 
+// ===== Article & card translation on language toggle =====
+
+function getCurrentLanguage() {
+  return document.documentElement.getAttribute("lang") || "el";
+}
+
+async function translateCurrentArticle() {
+  if (!currentPostData || !currentPostData._id) return;
+  try {
+    const res = await fetch("/api/translate/post/" + encodeURIComponent(currentPostData._id) + "?lang=en");
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data) return;
+
+    const titleEl = document.querySelector("#post h1");
+    if (titleEl && data.title) titleEl.textContent = data.title;
+
+    const contentEl = document.querySelector(".article-content");
+    if (contentEl && Array.isArray(data.contentBlocks) && data.contentBlocks.length) {
+      contentEl.innerHTML = renderContentBlocks(data.contentBlocks, data.title || "");
+      loadTwitterWidgets(contentEl);
+    }
+  } catch {}
+}
+
+function restoreOriginalArticle() {
+  if (!currentPostData) return;
+  const titleEl = document.querySelector("#post h1");
+  if (titleEl) titleEl.textContent = currentPostData.title || "Untitled";
+
+  const contentEl = document.querySelector(".article-content");
+  if (contentEl) {
+    contentEl.innerHTML = renderContentBlocks(currentPostData.content || [], currentPostData.title || "");
+    loadTwitterWidgets(contentEl);
+  }
+}
+
+async function translateVisibleCards() {
+  const cards = document.querySelectorAll("[data-post-id]");
+  if (!cards.length) return;
+
+  const ids = [...new Set([...cards].map(el => el.dataset.postId).filter(Boolean))];
+  if (!ids.length) return;
+
+  cards.forEach(card => {
+    if (originalCardTexts.has(card)) return;
+    const titleEl = card.querySelector("h2, h3");
+    const excerptEl = card.querySelector(".post-card-excerpt") || card.querySelector(".related-post-content > p") || card.querySelector("p");
+    originalCardTexts.set(card, {
+      title: titleEl?.textContent || "",
+      excerpt: excerptEl?.textContent || ""
+    });
+  });
+
+  try {
+    const res = await fetch("/api/translate/posts?lang=en", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data?.translations) return;
+
+    cards.forEach(card => {
+      const t = data.translations[card.dataset.postId];
+      if (!t) return;
+      const titleEl = card.querySelector("h2, h3");
+      const excerptEl = card.querySelector(".post-card-excerpt") || card.querySelector(".related-post-content > p") || card.querySelector("p");
+      if (titleEl && t.title) titleEl.textContent = t.title;
+      if (excerptEl && t.excerpt) excerptEl.textContent = t.excerpt;
+    });
+  } catch {}
+}
+
+function restoreOriginalCards() {
+  originalCardTexts.forEach((original, card) => {
+    const titleEl = card.querySelector("h2, h3");
+    const excerptEl = card.querySelector(".post-card-excerpt") || card.querySelector(".related-post-content > p") || card.querySelector("p");
+    if (titleEl) titleEl.textContent = original.title;
+    if (excerptEl) excerptEl.textContent = original.excerpt;
+  });
+  originalCardTexts.clear();
+}
+
+window.addEventListener("ui-language-changed", (e) => {
+  const lang = String(e.detail?.language || "el");
+
+  if (lang === "en") {
+    if (document.getElementById("post") && currentPostData) {
+      translateCurrentArticle();
+    }
+    translateVisibleCards();
+  } else {
+    if (document.getElementById("post") && currentPostData) {
+      restoreOriginalArticle();
+    }
+    restoreOriginalCards();
+  }
+});
+
+function autoTranslateIfNeeded() {
+  if (getCurrentLanguage() !== "en") return;
+  if (document.getElementById("post") && currentPostData) {
+    translateCurrentArticle();
+  }
+  translateVisibleCards();
+}
+
 // Load posts on page load
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function() {
@@ -2833,7 +2938,7 @@ if (document.readyState === 'loading') {
     const hasAuthorPage = !!document.getElementById("author-page");
 
     if (hasHome) {
-      loadPosts();
+      loadPosts().then(autoTranslateIfNeeded);
       initializeMobilePanelToggles();
       initializeBackToTopButton();
       initializeNewsletterCapture();
@@ -2842,12 +2947,12 @@ if (document.readyState === 'loading') {
     }
 
     if (hasPost) {
-      loadPost();
+      loadPost().then(autoTranslateIfNeeded);
       initializeNewsletterCapture();
     }
 
     if (hasAuthorPage) {
-      loadAuthorPage();
+      loadAuthorPage().then(autoTranslateIfNeeded);
       initializeMobilePanelToggles();
       scheduleNonCriticalTask(() => initializeReleaseCalendar(), 120);
     }
@@ -2858,7 +2963,7 @@ if (document.readyState === 'loading') {
   const hasAuthorPage = !!document.getElementById("author-page");
 
   if (hasHome) {
-    loadPosts();
+    loadPosts().then(autoTranslateIfNeeded);
     initializeMobilePanelToggles();
     initializeBackToTopButton();
     initializeNewsletterCapture();
@@ -2867,12 +2972,12 @@ if (document.readyState === 'loading') {
   }
 
   if (hasPost) {
-    loadPost();
+    loadPost().then(autoTranslateIfNeeded);
     initializeNewsletterCapture();
   }
 
   if (hasAuthorPage) {
-    loadAuthorPage();
+    loadAuthorPage().then(autoTranslateIfNeeded);
     initializeMobilePanelToggles();
     scheduleNonCriticalTask(() => initializeReleaseCalendar(), 120);
   }

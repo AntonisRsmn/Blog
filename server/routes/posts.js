@@ -1,5 +1,6 @@
 const express = require("express");
 const Post = require("../models/Post");
+const PostTranslation = require("../models/PostTranslation");
 const auth = require("../middleware/auth");
 const requireUploaderOrStaff = require("../middleware/requireUploaderOrStaff");
 const User = require("../models/User");
@@ -1346,6 +1347,7 @@ router.put("/:id", auth, requireUploaderOrStaff, async (req, res) => {
       runValidators: true
     });
     invalidatePublicCache();
+    PostTranslation.deleteMany({ postId: req.params.id }).catch(() => {});
     res.json(post);
   } catch (err) {
     if (err.code === 11000 && err.keyPattern?.slug) {
@@ -1406,6 +1408,7 @@ router.delete("/:id", auth, requireUploaderOrStaff, async (req, res) => {
 
   await Post.findByIdAndDelete(req.params.id);
   invalidatePublicCache();
+  PostTranslation.deleteMany({ postId: req.params.id }).catch(() => {});
   res.json({ success: true });
 });
 
